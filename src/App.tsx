@@ -4,6 +4,7 @@ import { average, averageDeviation, zScore } from "./utils/math";
 import { data } from "./data/data";
 import { GradientStops } from "./components/gradientStops";
 import { type IExtendedPoint } from "./interfaces/iExtendedPoint";
+import { Dot } from "./components/dot";
 
 const pvAv = average(data.map(it => it.pv));
 const pvAvDev = averageDeviation(data.map(it => it.pv), pvAv);
@@ -19,15 +20,17 @@ const extendedData: IExtendedPoint[] = data.map(it => ({
   isOutUvZ : Math.abs(zScore(it.uv, uvAv, uvAvDev)) > 1,
 }));
 
-const PvDot = ({ cx, cy, payload, r = 4 }: any) => {
-  const color = Math.abs(payload.pvZ) > 1 ? "red" : "#8884d8";
-  return <circle cx={cx} cy={cy} r={r} fill={color} stroke="white" />;
-};
+const PvDot = (p: any) => <Dot
+	{...p}
+	isOutKey="isOutPvZ"
+	color="#8884d8"
+/>;
 
-const UvDot = ({ cx, cy, payload, r = 4 }: any) => {
-  const color = Math.abs(payload.uvZ) > 1 ? "red" : "#82ca9d";
-  return <circle cx={cx} cy={cy} r={r} fill={color} stroke="white" />;
-};
+const UvDot = (p: any) => <Dot
+	{...p}
+	isOutKey="isOutUvZ"
+	color="#82ca9d"
+/>;
 
 export default function App() {
   return (
