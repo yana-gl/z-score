@@ -1,7 +1,7 @@
 
-import { outColor } from "../data/variables";
-import type { ExtendedPoint } from "../interfaces/extendedPoint";
-import type { IsOutKey } from "../interfaces/isOutKeyType";
+import { outColor } from '../data/variables';
+import type { ExtendedPoint } from '../interfaces/extendedPoint';
+import type { IsOutKey } from '../interfaces/isOutKeyType';
 
 interface DotProps {
     cx?: number;
@@ -14,5 +14,5 @@ interface DotProps {
 
 export const Dot = ({ cx, cy, payload, r = 4, isOutKey, color }: DotProps) => {
   const newColor = payload[isOutKey] ? outColor : color;
-  return <circle cx={cx} cy={cy} r={r} fill={newColor} stroke="white"/>;
+  return <circle cx={cx} cy={cy} r={r} fill={newColor} stroke={'white'}/>;
 };

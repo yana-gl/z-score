@@ -1,9 +1,9 @@
-import { innerWidth, outColor } from "../data/variables";
-import type { ExtendedPoint } from "../interfaces/extendedPoint";
-import type { IsOutKey } from "../interfaces/isOutKeyType";
-import type { ValueKey } from "../interfaces/valueKeyType";
-import { isInRange } from "../utils/math";
-import { GradientStop, type GradientStopProps } from "./gradientStop";
+import { innerWidth, outColor } from '../data/variables';
+import type { ExtendedPoint } from '../interfaces/extendedPoint';
+import type { IsOutKey } from '../interfaces/isOutKeyType';
+import type { ValueKey } from '../interfaces/valueKeyType';
+import { isInRange } from '../utils/math';
+import { GradientStop, type GradientStopProps } from './gradientStop';
 
 interface GradientStopsProps {
     data: ExtendedPoint[];
