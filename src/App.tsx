@@ -8,9 +8,13 @@ import { Dot } from "./components/dot";
 
 const pvAv = average(data.map(it => it.pv));
 const pvAvDev = averageDeviation(data.map(it => it.pv), pvAv);
+const outPvPositive = outValue(pvAvDev, 1, pvAv);
+const outPvNegative = outValue(pvAvDev, -1, pvAv);
 
 const uvAv = average(data.map(it => it.uv));
 const uvAvDev = averageDeviation(data.map(it => it.uv), uvAv);
+const outUvPositive = outValue(uvAvDev, 1, uvAv);
+const outUvNegative = outValue(uvAvDev, -1, uvAv);
 
 const extendedData: IExtendedPoint[] = data.map(it => ({
   ...it,
@@ -20,14 +24,6 @@ const extendedData: IExtendedPoint[] = data.map(it => ({
   isOutUvZ : Math.abs(zScore(it.uv, uvAv, uvAvDev)) > 1,
 }));
 
-window.console.log(extendedData);
-// window.console.log(outValue(pvAvDev, 1, pvAv));
-// window.console.log(outValue(pvAvDev, -1, pvAv));
-
-// for (let i = 0; i < 10000; i+=100) {
-// 	window.console.log(i);
-// 	window.console.log(zScore(i, pvAv, pvAvDev));
-// }
 
 const PvDot = (p: any) => <Dot
 	{...p}
@@ -61,15 +57,21 @@ export default function App() {
 						data={extendedData}
 						isOutKey={'isOutPvZ'}
 						color={'#8884d8'}
+						valueKey="pv"
+						outValuePositive={outPvPositive}
+						outValueNegative={outPvNegative}
 					/>
 				</linearGradient>
-				{/* <linearGradient id="uvGradient" x1="0" y1="0" x2="100%" y2="0">
+				<linearGradient id="uvGradient" x1="0" y1="0" x2="100%" y2="0">
 					<GradientStops
 						data={extendedData}
 						isOutKey={'isOutUvZ'}
 						color={'#82ca9d'}
+						valueKey="uv"
+						outValuePositive={outUvPositive}
+						outValueNegative={outUvNegative}
 					/>
-				</linearGradient> */}
+				</linearGradient>
 			</defs>
 			<CartesianGrid strokeDasharray="3 3" />
 			<XAxis dataKey="name" padding={{ left: 20, right: 20 }} />
@@ -83,13 +85,13 @@ export default function App() {
 				dot={PvDot}
 				activeDot={(p: any) => <PvDot {...p} r={8}/>}
 			/>
-			{/* <Line
+			<Line
 				type="monotone"
 				dataKey="uv"
 				stroke="url(#uvGradient)"
 				dot={UvDot}
 				activeDot={(p: any) => <UvDot {...p} r={8}/>}
-			/> */}
+			/>
 		</LineChart>
     </ResponsiveContainer>
   );

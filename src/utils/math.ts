@@ -19,3 +19,9 @@ export function zScore(x: number, av: number, devAv: number) {
 export function outValue(devAv: number, z: number, av: number) {
     return devAv * z + av;
 }
+
+export function isInRange(value: number, start: number, end: number): boolean {
+	const min = Math.min(start, end);
+	const max = Math.max(start, end);
+	return value >= min && value <= max;
+}
