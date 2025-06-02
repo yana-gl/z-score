@@ -1,13 +1,13 @@
 
 import { outColor } from "../data/variables";
-import { type IExtendedPoint } from "../interfaces/iExtendedPoint";
+import type { ExtendedPoint } from "../interfaces/extendedPoint";
 import type { IsOutKey } from "../interfaces/isOutKeyType";
 
 interface DotProps {
     cx?: number;
     cy?: number;
     r?: number;
-    payload: IExtendedPoint;
+    payload: ExtendedPoint;
     isOutKey: IsOutKey;
     color: string;
 }

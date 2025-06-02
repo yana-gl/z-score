@@ -1,4 +1,4 @@
-export type IExtendedPoint = {
+export type ExtendedPoint = {
 	name: string,
 	uv: number,
 	pv: number,
