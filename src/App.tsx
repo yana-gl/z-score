@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { average, averageDeviation, zScore } from "./utils/math";
+import { average, averageDeviation, outValue, zScore } from "./utils/math";
 import { data } from "./data/data";
 import { GradientStops } from "./components/gradientStops";
 import { type IExtendedPoint } from "./interfaces/iExtendedPoint";
@@ -10,15 +10,24 @@ const pvAv = average(data.map(it => it.pv));
 const pvAvDev = averageDeviation(data.map(it => it.pv), pvAv);
 
 const uvAv = average(data.map(it => it.uv));
-const uvAvDev = averageDeviation(data.map(it => it.uv), pvAv);
+const uvAvDev = averageDeviation(data.map(it => it.uv), uvAv);
 
 const extendedData: IExtendedPoint[] = data.map(it => ({
   ...it,
   pvZ: zScore(it.pv, pvAv, pvAvDev),
   isOutPvZ : Math.abs(zScore(it.pv, pvAv, pvAvDev)) > 1,
-  uvZ: zScore(it.pv, uvAv, uvAvDev),
+  uvZ: zScore(it.uv, uvAv, uvAvDev),
   isOutUvZ : Math.abs(zScore(it.uv, uvAv, uvAvDev)) > 1,
 }));
+
+window.console.log(extendedData);
+// window.console.log(outValue(pvAvDev, 1, pvAv));
+// window.console.log(outValue(pvAvDev, -1, pvAv));
+
+// for (let i = 0; i < 10000; i+=100) {
+// 	window.console.log(i);
+// 	window.console.log(zScore(i, pvAv, pvAvDev));
+// }
 
 const PvDot = (p: any) => <Dot
 	{...p}
@@ -34,7 +43,7 @@ const UvDot = (p: any) => <Dot
 
 export default function App() {
   return (
-    <ResponsiveContainer width="100%" height="100%" minHeight="300px">
+    <ResponsiveContainer width="100%" height="100%" minWidth="600px" minHeight="600px">
 		<LineChart
 			width={500}
 			height={300}
@@ -54,13 +63,13 @@ export default function App() {
 						color={'#8884d8'}
 					/>
 				</linearGradient>
-				<linearGradient id="uvGradient" x1="0" y1="0" x2="100%" y2="0">
+				{/* <linearGradient id="uvGradient" x1="0" y1="0" x2="100%" y2="0">
 					<GradientStops
 						data={extendedData}
 						isOutKey={'isOutUvZ'}
 						color={'#82ca9d'}
 					/>
-				</linearGradient>
+				</linearGradient> */}
 			</defs>
 			<CartesianGrid strokeDasharray="3 3" />
 			<XAxis dataKey="name" padding={{ left: 20, right: 20 }} />
@@ -74,13 +83,13 @@ export default function App() {
 				dot={PvDot}
 				activeDot={(p: any) => <PvDot {...p} r={8}/>}
 			/>
-			<Line
+			{/* <Line
 				type="monotone"
 				dataKey="uv"
 				stroke="url(#uvGradient)"
 				dot={UvDot}
 				activeDot={(p: any) => <UvDot {...p} r={8}/>}
-			/>
+			/> */}
 		</LineChart>
     </ResponsiveContainer>
   );
